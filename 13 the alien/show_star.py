@@ -5,6 +5,7 @@ import pygame
 from star import Star
 from ship import Ship
 from pygame.sprite import Group
+from random import randint
 
 class Settings():
     """存储所有设置的类"""
@@ -36,8 +37,10 @@ def create_fleet(my_settings, screen, stars):
 def create_star(screen, stars, col_number, row_number):
     """根据提供的信息，在指定的位置创造星星"""
     star = Star(screen)
-    star.rect.x = star.rect.width + col_number * star.rect.width * 2
-    star.rect.y = star.rect.height + row_number * star.rect.height * 2
+    random_x = randint(-10, 10)
+    star.rect.x = star.rect.width + col_number * star.rect.width * 2 + random_x
+    random_y = randint(-10, 10)
+    star.rect.y = star.rect.height + row_number * star.rect.height * 2 + random_y
     stars.add(star)
 
 
