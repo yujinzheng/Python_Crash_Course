@@ -24,6 +24,10 @@ class Ship():
         # 在飞船的属性center中存储小数值
         self.center = float(self.rect.centerx)
 
+    def center_ship(self):
+        """将飞船防止在中央"""
+        self.rect.centerx = self.screen_rect.centerx
+
     def blitme(self):
         """在指定位置绘制飞船"""
         self.screen.blit(self.image, self.rect)
