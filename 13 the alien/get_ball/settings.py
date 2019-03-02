@@ -13,7 +13,8 @@ class Settings():
         self.bg_color = (255, 255, 255)
 
         # 球的设置
-        self.ball_drop_speed = 0.1
+        self.ball_drop_speed = 0.5
+        self.ball_limit = 3
 
         # 碗的设置
-        self.bowl_speed_factor = 0.5
+        self.bowl_speed_factor = 0.8

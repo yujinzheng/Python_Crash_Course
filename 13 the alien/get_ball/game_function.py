@@ -5,6 +5,7 @@ import pygame
 
 from bowl import Bowl
 from ball import Ball
+from time import sleep
 
 def check_events(bowl):
     """
@@ -52,21 +53,27 @@ def update_screen(b_settings, screen, bowl, ball):
     # 让最近绘制的屏幕可见
     pygame.display.flip()
 
-def update_ball(b_settings, bowl, ball):
+def update_ball(b_settings, stats, bowl, ball):
     """更新球的位置"""
     ball.y += b_settings.ball_drop_speed
     ball.update()
-    check_ball_dispear(b_settings, ball)
+    check_ball_dispear(b_settings, stats, ball)
     check_ball_bowl_collisions(bowl, ball)
 
-def check_ball_dispear(b_settings, ball):
+def check_ball_dispear(b_settings, stats, ball):
     """检查球是否消失，如果消失就要新建一个球"""
-    if ball.rect.top > b_settings.screen_height:
-        ball.reset()
+    if stats.ball_left > 0:
+        if ball.rect.top > b_settings.screen_height:
+            stats.ball_left -= 1
+            sleep(0.5)
+            ball.reset()
+    else:
+        stats.game_active = False
 
 
 def check_ball_bowl_collisions(bowl, ball):
     """响应碗和球的碰撞"""
     # 检测到碗和球相交
     if  pygame.Rect.colliderect(ball.rect, bowl.rect):
+        sleep(0.5)
         ball.reset()
