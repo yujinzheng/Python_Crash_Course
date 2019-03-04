@@ -25,8 +25,8 @@ class Ship():
         self.center = float(self.rect.centerx)
 
     def center_ship(self):
-        """将飞船防止在中央"""
-        self.rect.centerx = self.screen_rect.centerx
+        """将飞船放置在中央"""
+        self.center = self.screen_rect.centerx
 
     def blitme(self):
         """在指定位置绘制飞船"""
