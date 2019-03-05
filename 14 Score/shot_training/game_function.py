@@ -47,6 +47,8 @@ def update_screen(ai_settings, screen, stats, ship, rectangulars, bullets, play_
 def start_game(ai_settings, screen, stats, ship, rectangulars, bullets):
     """用于检测开始游戏"""
     if not stats.game_active:
+        # 初始化游戏设置
+        ai_settings.initialize_dynamic_settings()
         # 隐藏光标
         pygame.mouse.set_visible(False)
         # 重置游戏统计信息
@@ -105,6 +107,7 @@ def check_bullet_rectangular_collisions(ai_settings, screen, rectangulars, bulle
     if len(rectangulars) == 0:
         # 删除现有子弹并新建一群外星人
         bullets.empty()
+        ai_settings.increase_speed()
         create_rectangular(ai_settings, screen, rectangulars)
         sleep(0.5)
 
