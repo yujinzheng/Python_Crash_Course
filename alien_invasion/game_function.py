@@ -11,6 +11,9 @@ def check_events(ai_settings, screen, stats, sb, ship, aliens, bullets, play_but
     """响应按键和鼠标事件"""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            filename = "highscore.txt"
+            with open(filename, 'w') as f:
+                f.write(str(int(round(stats.high_score, -1))))
             sys.exit()
         elif event.type == pygame.KEYDOWN:
             check_keydown_events(event, ai_settings, screen, stats, sb, ship, aliens, bullets)
@@ -21,7 +24,7 @@ def check_events(ai_settings, screen, stats, sb, ship, aliens, bullets, play_but
             check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, mouse_x, mouse_y)
 
 def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, mouse_x, mouse_y):
-    """在玩家单机Play按钮时开始新的游戏"""
+    """在玩家单击Play按钮时开始新的游戏"""
     button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
     if button_clicked:
         start_game(ai_settings, screen, stats, sb, ship, aliens, bullets)
@@ -48,6 +51,10 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_bu
 def start_game(ai_settings, screen, stats, sb, ship, aliens, bullets):
     """用于检测开始游戏"""
     if not stats.game_active:
+        # 写最高分
+        filename = "highscore.txt"
+        with open(filename, 'w') as f:
+            f.write(str(int(round(stats.high_score, -1))))
         # 重置游戏设置
         ai_settings.initialize_dynamic_settings()
         # 隐藏光标
@@ -56,10 +63,7 @@ def start_game(ai_settings, screen, stats, sb, ship, aliens, bullets):
         # 重置游戏统计信息
         stats.reset_stats()
         stats.game_active = True
-        sb.prep_score()
-        sb.prep_high_score()
-        sb.prep_level()
-        sb.prep_ships()
+        sb.pre_images()
 
         # 清空外星人列表和子弹列表
         aliens.empty()
@@ -78,6 +82,9 @@ def check_keydown_events(event, ai_settings, screen, stats, sb, ship, aliens, bu
     elif event.key == pygame.K_SPACE:
         fire_bullet(ai_settings, screen, ship, bullets)
     elif event.key == pygame.K_q:
+        filename = "highscore.txt"
+        with open(filename, 'w') as f:
+            f.write(str(int(round(stats.high_score, -1))))
         sys.exit()
     elif event.key == pygame.K_p:
         start_game(ai_settings, screen, stats, sb, ship, aliens, bullets)
@@ -113,11 +120,15 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, 
 
     if len(aliens) == 0:
         # 删除现有子弹并新建一群外星人
-        bullets.empty()
-        ai_settings.increase_speed()
-        stats.level += 1
-        sb.prep_level()
-        create_fleet(ai_settings, screen, ship, aliens)
+        start_new_level(ai_settings, stats, sb, screen, ship, aliens, bullets)
+
+def start_new_level(ai_settings, stats, sb, screen, ship, aliens, bullets):
+    """消灭外星人后开始开始一个新的等级"""
+    bullets.empty()
+    ai_settings.increase_speed()
+    stats.level += 1
+    sb.prep_level()
+    create_fleet(ai_settings, screen, ship, aliens)
 
 def fire_bullet(ai_settings, screen, ship, bullets):
     """如果还没有达到限制，就发射一颗子弹"""

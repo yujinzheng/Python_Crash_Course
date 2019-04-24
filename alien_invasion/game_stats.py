@@ -11,7 +11,13 @@ class GameStats():
         self.game_active = False
 
         # 游戏最高得分
-        self.high_score = 0
+        try:
+            with open('highscore.txt') as f:
+                score = f.read()
+                self.high_score = int(score)
+        except Exception:
+            print("无法获取最高分，将最高分置为0")
+            self.high_score = 0
 
     def reset_stats(self):
         """初始化在游戏运行期间可能变化的统计信息"""
