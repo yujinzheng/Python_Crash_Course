@@ -72,3 +72,5 @@ URL模式描述URL如何设计，让Django知道如何将浏览器请求和网�
 
 4. 在app目录下新建templates/appname文件夹，在里面放入index.html文件，就能够通过url访问到主页了
 
+## 用户账户
+
