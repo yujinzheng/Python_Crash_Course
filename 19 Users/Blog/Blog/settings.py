@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     # 激活blogs
     'blogs',
+    'users',
 ]
 
 MIDDLEWARE = [
