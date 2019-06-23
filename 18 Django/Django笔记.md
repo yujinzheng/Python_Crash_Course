@@ -74,3 +74,24 @@ URL模式描述URL如何设计，让Django知道如何将浏览器请求和网�
 
 ## 用户账户
 
+可以使用HttpResponseRedirect和reverse来帮助用户在完成操作后重定向到指定页面
+
+        return HttpResponseRedirect(reverse('learning_logs:index')) # 在操作完成后让用户返回到index页面，即重定向
+
+POST提交表单，GET获取表单，通过form.is_valid()能够判断表单是否有效
+
+在没有提交表单（即没有检测到POST）时，可以返回空表单，空表单不会对我们的填写造成影响
+
+如果想要通过用户账户来对页面进行管理，需要引入login_required
+
+        from django.contrib.auth.decorators import login_required
+        @login_required # 添加修饰可以让下面的函数对当前用户进行校验
+
+需要在settings中指定用户校验跳转的页面：
+
+        LOGIN_URL = '/users/login/'
+
+在model中，可以引入User，将数据与User连接起来，就能够实现分用户的数据管理
+
+        from django.contrib.auth.models import User
+		owner = models.ForeignKey(User)
