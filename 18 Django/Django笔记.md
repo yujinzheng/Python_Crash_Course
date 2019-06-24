@@ -95,3 +95,14 @@ POST提交表单，GET获取表单，通过form.is_valid()能够判断表单是�
 
         from django.contrib.auth.models import User
 		owner = models.ForeignKey(User)
+
+# 设置应用程序的样式
+
+1. 在settings中注册第三方应用程序，本例中使用bootstrap3
+
+2. 在settings的末尾添加bootstrap3的设置
+        BOOTSTRAP3 = {
+			'include_jquery' : True
+		}
+
+3. 修改template中的模板文件，将bootstrap导入到html中
